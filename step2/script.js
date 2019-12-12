@@ -31,13 +31,8 @@ function printChartFatturato(fatturato) {
       datasets: [{
         label: 'Vendite',
         data: fatturato.data,
-        backgroundColor: [
-          '#3c7e4d'
-          
-        ],
-        borderColor: [
-          '#f4002a'
-        ],
+        backgroundColor: '#3c7e4d',
+        borderColor: '#f4002a',
         borderWidth: 4
       }]
     },
@@ -60,7 +55,7 @@ function printChartFatturatoAgent(fatturatoAgents) {
     data: {
       labels: Object.keys(fatturatoAgents.data),
       datasets: [{
-        label: 'Vendite',
+        label: 'Fatturato Agents',
         data: Object.values(fatturatoAgents.data),
         backgroundColor: '#fddb88',
         borderColor: '#f4002a',
