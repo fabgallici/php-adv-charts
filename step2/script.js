@@ -4,22 +4,13 @@ function getChartData() {
     method: "GET",
     success: function (data) {
       console.log("data", data);
-      evData(data);
+      printChartFatturato(data.fatturato);
+      printChartFatturatoAgent(data.fatturato_by_agent);
     },
     error: function (error) {
       console.log("error", error);
     }
   });
-}
-
-//versione Agents semplice da usare con obj keys e values
-function evData(data) {
-  var fatturato = data.fatturato;
-  var fatturatoAgents = data.fatturato_by_agent;
-  console.log('fatturato ', fatturato);
-  console.log('fatturatoAgents ', fatturatoAgents);
-  printChartFatturato(fatturato);
-  printChartFatturatoAgent(fatturatoAgents);
 }
 
 function printChartFatturato(fatturato) {
@@ -47,7 +38,7 @@ function printChartFatturato(fatturato) {
     }
   });
 }
-//per versione semplice obj keys values
+//versione semplice obj keys values
 function printChartFatturatoAgent(fatturatoAgents) {
   var ctx = document.getElementById('myAgentsChart').getContext('2d');
   var myChart = new Chart(ctx, {
