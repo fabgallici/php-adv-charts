@@ -4,7 +4,6 @@ function getChartData() {
     method: "GET",
     success: function (data) {
       console.log("data", data);
-      // printChart(data);
       evData(data);
     },
     error: function (error) {
@@ -16,24 +15,43 @@ function getChartData() {
 function evData(data) {
   var fatturato = data.fatturato;
   var fatturato_by_agent = data.fatturato_by_agent;
-  console.log(fatturato);
-  console.log(fatturato_by_agent);
+  console.log('fatturato ', fatturato);
+  console.log('fatturato_by_agent ', fatturato_by_agent);
   printChartFatturato(fatturato);
-  var fatturatoAgents = 
+  //estrazione dati agent chiave e valori , inserimento stessi in 2 array in nuovo oggetto per stampa video chartjs
+  var fatturatoAgents =
   {
     'type': fatturato_by_agent.type,
     'agent_names': [],
     'data': []
   };
   for (var agentName in fatturato_by_agent.data) {
-    // agents.push(agentName);
     fatturatoAgents.agent_names.push(agentName);
     fatturatoAgents.data.push(fatturato_by_agent.data[agentName]);
-    // console.log(agent);
   }
   console.log('agents: ', fatturatoAgents);
   printChartFatturatoAgent(fatturatoAgents);
 }
+
+// //alt vers: aggiunge dati oggetto fatturatoAgent attuale senza crearne uno nuovo
+// function evData(data) {
+//   var fatturato = data.fatturato;
+//   var fatturatoAgent = data.fatturato_by_agent;
+//   console.log('fatturato ', fatturato);
+//   console.log('fatturato_by_agent ', fatturatoAgent);
+//   printChartFatturato(fatturato);
+//   //ev dati Agents
+//   fatturatoAgent.agent_names = [];
+//   fatturatoAgent.agents_data = [];
+//   for (var agentName in fatturatoAgent.data) {
+//     fatturatoAgent.agent_names.push(agentName);
+//     fatturatoAgent.agents_data.push(fatturatoAgent.data[agentName]);
+//   }
+//   console.log('agents: ', fatturatoAgent);
+//   //mod in print data: fatturatoAgents.data --> fatturatoAgents.agents_data
+//   printChartFatturatoAgent(fatturatoAgent);  
+// }
+
 
 function printChartFatturato(fatturato) {
   var ctx = document.getElementById('myChart').getContext('2d');
@@ -75,6 +93,7 @@ function printChartFatturatoAgent(fatturatoAgents) {
       backgroundColor: '#000',
       datasets: [{
         label: 'Vendite',
+        // data: fatturatoAgents.agents_data,
         data: fatturatoAgents.data,
         backgroundColor: '#fddb88',
         borderColor: '#f4002a',
@@ -94,6 +113,5 @@ function printChartFatturatoAgent(fatturatoAgents) {
 }
 function init() {
   getChartData();
-  // printChart();
 }
 $(document).ready(init);
