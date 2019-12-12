@@ -32,6 +32,7 @@ function evData(data) {
     // console.log(agent);
   }
   console.log('agents: ', fatturatoAgents);
+  printChartFatturatoAgent(fatturatoAgents);
 }
 
 function printChartFatturato(fatturato) {
@@ -65,8 +66,31 @@ function printChartFatturato(fatturato) {
   });
 }
 
-function printChartFatturatoAgent(fatturatoAgent) {
-
+function printChartFatturatoAgent(fatturatoAgents) {
+  var ctx = document.getElementById('myAgentsChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: fatturatoAgents.type,
+    data: {
+      labels: fatturatoAgents.agent_names,
+      backgroundColor: '#000',
+      datasets: [{
+        label: 'Vendite',
+        data: fatturatoAgents.data,
+        backgroundColor: '#fddb88',
+        borderColor: '#f4002a',
+        borderWidth: 4
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
 }
 function init() {
   getChartData();

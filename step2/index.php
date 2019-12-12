@@ -30,6 +30,9 @@
   <div class="wrapper">
     <canvas id="myChart"></canvas>
   </div>
+  <div class="wrapper">
+    <canvas id="myAgentsChart"></canvas>
+  </div>
 
 </body>
 
