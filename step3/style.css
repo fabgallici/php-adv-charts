@@ -2,9 +2,10 @@
   width: 90%;
   max-width: 1150px;
   margin: auto;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
 }
-#myChart,
-#myAgentsChart {
+#chartFatturato,
+#chartAgent,
+#chartTeam {
   width: 100%;
 }

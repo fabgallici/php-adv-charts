@@ -23,7 +23,7 @@ function getChartData(accLevel) {
   });
 }
 
-function Dataset(label = '', data, backgroundColor, borderColor, borderWidth = 1) {
+function Dataset(label = '', data, backgroundColor = '', borderColor = '#8e183a', borderWidth = 1) {
   this.label = label; //string
   this.data = data; //expect type array
   this.backgroundColor = backgroundColor; // '#3c7e4d'
@@ -33,16 +33,24 @@ function Dataset(label = '', data, backgroundColor, borderColor, borderWidth = 1
 
 function evChartFatturato(data) {
   var dataset = new Dataset('Vendite', data.data, '#3c7e4d', '#f4002a', 4);
-  printChart('chartFatturato', data.type, moment.months(), dataset);
+  printChart('chartFatturato', data.type, moment.months(), [dataset]);
 }
 function evChartAgent(data) {
   var dataset = new Dataset('Vendite', Object.values(data.data), '#fddb88', '#f4002a', 4);
-  printChart('chartAgent', data.type, Object.keys(data.data), dataset);
+  printChart('chartAgent', data.type, Object.keys(data.data), [dataset]);
 }
-// function evChartAgent(data) {
-//   var dataset = new Dataset('Vendite', Object.values(data.data), '#fddb88', '#f4002a', 4);
-//   printChart('chartAgent', data.type, Object.keys(data.data), dataset);
-// }
+function evChartTeam(data) { 
+  var datasets = []; //creare array datasets contenente 1 dataset per ogni Team
+  var borderColors = ['#f4002a', '#d9d900', '#2908f2', '#8e183a'];
+  var indexCol = 0;
+  for (var teamName in data.data) {
+    var dataset = new Dataset(teamName, data.data[teamName],'',  borderColors[indexCol], 4);
+    datasets.push(dataset);
+    indexCol++;
+  }  
+  console.log('datasets ', datasets);
+  printChart('chartTeam', data.type, moment.months(), datasets);
+}
 
 function printChart(id, type, labels, datasets) {
   var ctx = document.getElementById(id).getContext('2d');
@@ -50,7 +58,7 @@ function printChart(id, type, labels, datasets) {
     type: type, // string 'line' 'pie'
     data: {
       labels: labels,  //expect type array
-      datasets: [datasets]  //expect type object-s
+      datasets: datasets  //expect type [object-s] -  array of obj-s
     },
     options: {
       scales: {
@@ -63,76 +71,7 @@ function printChart(id, type, labels, datasets) {
     }
   });
 }
-function printChartFatturato(fatturato) {
-  var ctx = document.getElementById('myChart').getContext('2d');
-  var myChart = new Chart(ctx, {
-    type: fatturato.type,
-    data: {
-      labels: moment.months(),
-      datasets: [{
-        label: 'Vendite',
-        data: fatturato.data,
-        backgroundColor: '#3c7e4d',
-        borderColor: '#f4002a',
-        borderWidth: 4
-      }]
-    },
-    options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true
-          }
-        }]
-      }
-    }
-  });
-}
-//versione semplice obj keys values
-function printChartFatturatoAgent(fatturatoAgents) {
-  var ctx = document.getElementById('myAgentsChart').getContext('2d');
-  var myChart = new Chart(ctx, {
-    type: fatturatoAgents.type,
-    data: {
-      labels: Object.keys(fatturatoAgents.data),
-      datasets: [{
-        label: 'Fatturato Agents',
-        data: Object.values(fatturatoAgents.data),
-        backgroundColor: '#fddb88',
-        borderColor: '#f4002a',
-        borderWidth: 4
-      }]
-    }
-  });
-}
 
-function printChartTeams(team) {
-  console.log(Object.values(team.data));
-  console.log(Object.keys(team.data));
-
-  var datasetsArrObj = [];
-  var borderColors = ['#f4002a', '#d9d900', '#2908f2', '#8e183a'];
-  var indexCol = 0;
-  for (var teamName in team.data) {   
-    var newDataset = {
-      label: teamName,
-      data: team.data[teamName],
-      borderColor: borderColors[indexCol],
-      borderWidth: 4
-    }
-    indexCol++;
-    datasetsArrObj.push(newDataset);
-  }
-  console.log('datasetsArrObj ', datasetsArrObj);
-  var ctx = document.getElementById('myTeamsChart').getContext('2d');
-  var myChart = new Chart(ctx, {
-    type: team.type,
-    data: {
-      labels: moment.months(),
-      datasets: datasetsArrObj
-    }
-  });
-}
 function getUrlLevel() {
   var url = window.location.search;
   var arrUrl = url.split('=');
@@ -146,60 +85,18 @@ function init() {
 }
 $(document).ready(init);
 
-// //base version (richiede printChart sotto)
-// function evData(data) {
-//   var fatturato = data.fatturato;
-//   var fatturato_by_agent = data.fatturato_by_agent;
-//   console.log('fatturato ', fatturato);
-//   console.log('fatturato_by_agent ', fatturato_by_agent);
-//   printChartFatturato(fatturato);
-//   //estrazione dati agent chiave e valori , inserimento stessi in 2 array in nuovo oggetto per stampa video chartjs
-//   var fatturatoAgents =
-//   {
-//     'type': fatturato_by_agent.type,
-//     'agent_names': [],
-//     'data': []
-//   };
-//   for (var agentName in fatturato_by_agent.data) {
-//     fatturatoAgents.agent_names.push(agentName);
-//     fatturatoAgents.data.push(fatturato_by_agent.data[agentName]);
-//   }
-//   console.log('agents: ', fatturatoAgents);
-//   printChartFatturatoAgent(fatturatoAgents);
-// }
+//--------- OLD VERSION --------------
 
-// //alt vers: aggiunge dati oggetto fatturatoAgent attuale senza crearne uno nuovo
-// function evData(data) {
-//   var fatturato = data.fatturato;
-//   var fatturatoAgent = data.fatturato_by_agent;
-//   console.log('fatturato ', fatturato);
-//   console.log('fatturato_by_agent ', fatturatoAgent);
-//   printChartFatturato(fatturato);
-//   //ev dati Agents
-//   fatturatoAgent.agent_names = [];
-//   fatturatoAgent.agents_data = [];
-//   for (var agentName in fatturatoAgent.data) {
-//     fatturatoAgent.agent_names.push(agentName);
-//     fatturatoAgent.agents_data.push(fatturatoAgent.data[agentName]);
-//   }
-//   console.log('agents: ', fatturatoAgent);
-//   //mod in print data: fatturatoAgents.data --> fatturatoAgents.agents_data
-//   printChartFatturatoAgent(fatturatoAgent);  
-// }
-
-
-// function printChartFatturatoAgent(fatturatoAgents) {
-//   var ctx = document.getElementById('myAgentsChart').getContext('2d');
+// function printChartFatturato(fatturato) {
+//   var ctx = document.getElementById('myChart').getContext('2d');
 //   var myChart = new Chart(ctx, {
-//     type: fatturatoAgents.type,
+//     type: fatturato.type,
 //     data: {
-//       labels: fatturatoAgents.agent_names,
-//       backgroundColor: '#000',
+//       labels: moment.months(),
 //       datasets: [{
 //         label: 'Vendite',
-//         // data: fatturatoAgents.agents_data,
-//         data: fatturatoAgents.data,
-//         backgroundColor: '#fddb88',
+//         data: fatturato.data,
+//         backgroundColor: '#3c7e4d',
 //         borderColor: '#f4002a',
 //         borderWidth: 4
 //       }]
@@ -212,6 +109,51 @@ $(document).ready(init);
 //           }
 //         }]
 //       }
+//     }
+//   });
+// }
+// //versione semplice obj keys values
+// function printChartFatturatoAgent(fatturatoAgents) {
+//   var ctx = document.getElementById('myAgentsChart').getContext('2d');
+//   var myChart = new Chart(ctx, {
+//     type: fatturatoAgents.type,
+//     data: {
+//       labels: Object.keys(fatturatoAgents.data),
+//       datasets: [{
+//         label: 'Fatturato Agents',
+//         data: Object.values(fatturatoAgents.data),
+//         backgroundColor: '#fddb88',
+//         borderColor: '#f4002a',
+//         borderWidth: 4
+//       }]
+//     }
+//   });
+// }
+
+// function printChartTeams(team) {
+//   console.log(Object.values(team.data));
+//   console.log(Object.keys(team.data));
+
+//   var datasetsArrObj = [];
+//   var borderColors = ['#f4002a', '#d9d900', '#2908f2', '#8e183a'];
+//   var indexCol = 0;
+//   for (var teamName in team.data) {
+//     var newDataset = {
+//       label: teamName,
+//       data: team.data[teamName],
+//       borderColor: borderColors[indexCol],
+//       borderWidth: 4
+//     }
+//     indexCol++;
+//     datasetsArrObj.push(newDataset);
+//   }
+//   console.log('datasetsArrObj ', datasetsArrObj);
+//   var ctx = document.getElementById('myTeamsChart').getContext('2d');
+//   var myChart = new Chart(ctx, {
+//     type: team.type,
+//     data: {
+//       labels: moment.months(),
+//       datasets: datasetsArrObj
 //     }
 //   });
 // }
