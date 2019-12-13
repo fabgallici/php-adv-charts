@@ -24,6 +24,7 @@
   <!-- JS: MY SCRIPT -->
   <script src="script.js" charset="utf-8"></script>
   <title>PHP Adv Charts</title>
+  
 </head>
 
 <body>

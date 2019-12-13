@@ -2,9 +2,12 @@ function getChartData() {
   $.ajax({
     url: "getData.php",
     method: "GET",
+    data: {
+      level: 'guest'
+    },
     success: function (data) {
       console.log("data", data);
-      // printChartFatturato(data.fatturato);
+      printChartFatturato(data.fatturato);
       // printChartFatturatoAgent(data.fatturato_by_agent);
     },
     error: function (error) {

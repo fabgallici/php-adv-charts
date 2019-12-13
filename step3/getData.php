@@ -1,6 +1,8 @@
 <?php
-
+//http://localhost/getData.php?level=clevel
 header('Content-Type: application/json');
+
+
 
 include 'data.php';
 
