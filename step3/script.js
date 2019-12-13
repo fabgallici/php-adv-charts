@@ -8,13 +8,13 @@ function getChartData(accLevel) {
     success: function (data) {
       console.log("data", data);
       if (data.fatturato) {
-        printChartFatturato(data.fatturato);
+        evChartFatturato(data.fatturato);
       }  
       if (data.fatturato_by_agent) {
-        printChartFatturatoAgent(data.fatturato_by_agent);
+        evChartAgent(data.fatturato_by_agent);
       }
       if (data.team_efficiency) {
-        printChartTeams(data.team_efficiency);
+        evChartTeam(data.team_efficiency);
       }    
     },
     error: function (error) {
@@ -23,6 +23,46 @@ function getChartData(accLevel) {
   });
 }
 
+function Dataset(label = '', data, backgroundColor, borderColor, borderWidth = 1) {
+  this.label = label; //string
+  this.data = data; //expect type array
+  this.backgroundColor = backgroundColor; // '#3c7e4d'
+  this.borderColor = borderColor;
+  this.borderWidth = borderWidth; //number >1
+}
+
+function evChartFatturato(data) {
+  var dataset = new Dataset('Vendite', data.data, '#3c7e4d', '#f4002a', 4);
+  printChart('chartFatturato', data.type, moment.months(), dataset);
+}
+function evChartAgent(data) {
+  var dataset = new Dataset('Vendite', Object.values(data.data), '#fddb88', '#f4002a', 4);
+  printChart('chartAgent', data.type, Object.keys(data.data), dataset);
+}
+// function evChartAgent(data) {
+//   var dataset = new Dataset('Vendite', Object.values(data.data), '#fddb88', '#f4002a', 4);
+//   printChart('chartAgent', data.type, Object.keys(data.data), dataset);
+// }
+
+function printChart(id, type, labels, datasets) {
+  var ctx = document.getElementById(id).getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: type, // string 'line' 'pie'
+    data: {
+      labels: labels,  //expect type array
+      datasets: [datasets]  //expect type object-s
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+}
 function printChartFatturato(fatturato) {
   var ctx = document.getElementById('myChart').getContext('2d');
   var myChart = new Chart(ctx, {
@@ -62,15 +102,6 @@ function printChartFatturatoAgent(fatturatoAgents) {
         borderColor: '#f4002a',
         borderWidth: 4
       }]
-    },
-    options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true
-          }
-        }]
-      }
     }
   });
 }
@@ -79,7 +110,7 @@ function printChartTeams(team) {
   console.log(Object.values(team.data));
   console.log(Object.keys(team.data));
 
-  var datasetsArr = [];
+  var datasetsArrObj = [];
   var borderColors = ['#f4002a', '#d9d900', '#2908f2', '#8e183a'];
   var indexCol = 0;
   for (var teamName in team.data) {   
@@ -90,44 +121,15 @@ function printChartTeams(team) {
       borderWidth: 4
     }
     indexCol++;
-    datasetsArr.push(newDataset);
-    // if (object.hasOwnProperty(key)) {
-    //   const element = object[key];
-      
-    // }
+    datasetsArrObj.push(newDataset);
   }
-  console.log('datasetsArr ', datasetsArr);
+  console.log('datasetsArrObj ', datasetsArrObj);
   var ctx = document.getElementById('myTeamsChart').getContext('2d');
   var myChart = new Chart(ctx, {
     type: team.type,
     data: {
       labels: moment.months(),
-      datasets: datasetsArr
-      // [{
-      //   label: 'Fatturato Agents',
-      //   // data: Object.values(team.data),
-      //   data: [1, 0.8, 0.7, 0.5, 0.7, 0.8, 0.9, 0.5, 0.6, 1, 0.3, 0.9],
-
-      //   borderColor: '#f4002a',
-      //   borderWidth: 4
-      // }, 
-      // {
-      //     label: 'Fatturato Agents',
-      //     // data: Object.values(team.data),
-      //   data: [0.3, 0.6, 0.8, 0.3, 0.6, 0.5, 0.8, 0.7, 0.3, 0.5, 0.6, 1],
-
-      //     borderColor: '#f4002a',
-      //     borderWidth: 4
-      //   }]
-    },
-    options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true
-          }
-        }]
-      }
+      datasets: datasetsArrObj
     }
   });
 }

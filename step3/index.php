@@ -24,18 +24,18 @@
   <!-- JS: MY SCRIPT -->
   <script src="script.js" charset="utf-8"></script>
   <title>PHP Adv Charts</title>
-  
+
 </head>
 
 <body>
   <div class="wrapper">
-    <canvas id="myChart"></canvas>
+    <canvas id="chartFatturato"></canvas>
   </div>
   <div class="wrapper">
-    <canvas id="myAgentsChart"></canvas>
+    <canvas id="chartAgent"></canvas>
   </div>
   <div class="wrapper">
-    <canvas id="myTeamsChart"></canvas>
+    <canvas id="chartTeam"></canvas>
   </div>
 
 </body>
