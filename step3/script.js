@@ -1,15 +1,15 @@
-function getChartData() {
+function getChartData(accLevel) {
   $.ajax({
     url: "getData.php",
     method: "GET",
     data: {
-      level: 'employee'
+      level: accLevel
     },
     success: function (data) {
       console.log("data", data);
       printChartFatturato(data.fatturato);
       printChartFatturatoAgent(data.fatturato_by_agent);
-      // printChartTeams(data.team_efficiency);
+      printChartTeams(data.team_efficiency);
     },
     error: function (error) {
       console.log("error", error);
@@ -69,15 +69,17 @@ function printChartFatturatoAgent(fatturatoAgents) {
   });
 }
 
-function printChartTeams(fatturatoAgents) {
-  var ctx = document.getElementById('myAgentsChart').getContext('2d');
+function printChartTeams(team) {
+  console.log(Object.values(team.data));
+
+  var ctx = document.getElementById('myTeamsChart').getContext('2d');
   var myChart = new Chart(ctx, {
-    type: fatturatoAgents.type,
+    type: team.type,
     data: {
-      labels: Object.keys(fatturatoAgents.data),
+      labels: Object.keys(team.data),
       datasets: [{
         label: 'Fatturato Agents',
-        data: Object.values(fatturatoAgents.data),
+        data: Object.values(team.data),
         backgroundColor: '#fddb88',
         borderColor: '#f4002a',
         borderWidth: 4
@@ -94,8 +96,16 @@ function printChartTeams(fatturatoAgents) {
     }
   });
 }
+function getUrlLevel() {
+  var url = window.location.search;
+  var arrUrl = url.split('=');
+  console.log (arrUrl);
+  return arrUrl[1];
+}
 function init() {
-  getChartData();
+  var accLevel = getUrlLevel();
+  getChartData(accLevel);
+  console.log(window.location.search);
 }
 $(document).ready(init);
 

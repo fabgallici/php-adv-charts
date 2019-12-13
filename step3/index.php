@@ -34,6 +34,9 @@
   <div class="wrapper">
     <canvas id="myAgentsChart"></canvas>
   </div>
+  <div class="wrapper">
+    <canvas id="myTeamsChart"></canvas>
+  </div>
 
 </body>
 
