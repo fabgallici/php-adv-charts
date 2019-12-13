@@ -73,27 +73,46 @@ function printChartTeams(team) {
   console.log(Object.values(team.data));
   console.log(Object.keys(team.data));
 
+  var datasetsArr = [];
+  var borderColors = ['#f4002a', '#d9d900', '#2908f2', '#8e183a'];
+  var indexCol = 0;
+  for (var teamName in team.data) {   
+    var newDataset = {
+      label: teamName,
+      data: team.data[teamName],
+      borderColor: borderColors[indexCol],
+      borderWidth: 4
+    }
+    indexCol++;
+    datasetsArr.push(newDataset);
+    // if (object.hasOwnProperty(key)) {
+    //   const element = object[key];
+      
+    // }
+  }
+  console.log('datasetsArr ', datasetsArr);
   var ctx = document.getElementById('myTeamsChart').getContext('2d');
   var myChart = new Chart(ctx, {
     type: team.type,
     data: {
       labels: moment.months(),
-      datasets: [{
-        label: 'Fatturato Agents',
-        // data: Object.values(team.data),
-        data: [1, 0.8, 0.7, 0.5, 0.7, 0.8, 0.9, 0.5, 0.6, 1, 0.3, 0.9],
+      datasets: datasetsArr
+      // [{
+      //   label: 'Fatturato Agents',
+      //   // data: Object.values(team.data),
+      //   data: [1, 0.8, 0.7, 0.5, 0.7, 0.8, 0.9, 0.5, 0.6, 1, 0.3, 0.9],
 
-        borderColor: '#f4002a',
-        borderWidth: 4
-      }, 
-      {
-          label: 'Fatturato Agents',
-          // data: Object.values(team.data),
-        data: [0.3, 0.6, 0.8, 0.3, 0.6, 0.5, 0.8, 0.7, 0.3, 0.5, 0.6, 1],
+      //   borderColor: '#f4002a',
+      //   borderWidth: 4
+      // }, 
+      // {
+      //     label: 'Fatturato Agents',
+      //     // data: Object.values(team.data),
+      //   data: [0.3, 0.6, 0.8, 0.3, 0.6, 0.5, 0.8, 0.7, 0.3, 0.5, 0.6, 1],
 
-          borderColor: '#f4002a',
-          borderWidth: 4
-        }]
+      //     borderColor: '#f4002a',
+      //     borderWidth: 4
+      //   }]
     },
     options: {
       scales: {
