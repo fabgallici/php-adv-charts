@@ -1,3 +1,8 @@
+// Il livello dell’utente che visita la pagina viene preso da querystring
+// http://localhost/getData.php?level=guest
+// http://localhost/getData.php?level=employee
+// http://localhost/getData.php?level=clevel
+
 function getChartData(accLevel) {
   $.ajax({
     url: "getData.php",
