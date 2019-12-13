@@ -71,19 +71,29 @@ function printChartFatturatoAgent(fatturatoAgents) {
 
 function printChartTeams(team) {
   console.log(Object.values(team.data));
+  console.log(Object.keys(team.data));
 
   var ctx = document.getElementById('myTeamsChart').getContext('2d');
   var myChart = new Chart(ctx, {
     type: team.type,
     data: {
-      labels: Object.keys(team.data),
+      labels: moment.months(),
       datasets: [{
         label: 'Fatturato Agents',
-        data: Object.values(team.data),
-        backgroundColor: '#fddb88',
+        // data: Object.values(team.data),
+        data: [1, 0.8, 0.7, 0.5, 0.7, 0.8, 0.9, 0.5, 0.6, 1, 0.3, 0.9],
+
         borderColor: '#f4002a',
         borderWidth: 4
-      }]
+      }, 
+      {
+          label: 'Fatturato Agents',
+          // data: Object.values(team.data),
+        data: [0.3, 0.6, 0.8, 0.3, 0.6, 0.5, 0.8, 0.7, 0.3, 0.5, 0.6, 1],
+
+          borderColor: '#f4002a',
+          borderWidth: 4
+        }]
     },
     options: {
       scales: {
