@@ -15,9 +15,10 @@ if ($graphs['fatturato']['access'] == $access) {
   $return['fatturato'] = $graphs['fatturato'];
   $return['fatturato_by_agent'] = $graphs['fatturato_by_agent'];
 } elseif ($graphs['team_efficiency']['access'] == $access) {
-  $return['fatturato'] = $graphs['fatturato'];
-  $return['fatturato_by_agent'] = $graphs['fatturato_by_agent'];
-  $return['team_efficiency'] = $graphs['team_efficiency'];
+  // $return['fatturato'] = $graphs['fatturato'];
+  // $return['fatturato_by_agent'] = $graphs['fatturato_by_agent'];
+  // $return['team_efficiency'] = $graphs['team_efficiency'];
+  $return = $graphs;
 }
 echo json_encode($return);
 

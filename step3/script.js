@@ -9,6 +9,7 @@ function getChartData() {
       console.log("data", data);
       printChartFatturato(data.fatturato);
       printChartFatturatoAgent(data.fatturato_by_agent);
+      // printChartTeams(data.team_efficiency);
     },
     error: function (error) {
       console.log("error", error);
