@@ -86,7 +86,7 @@ function getUrlLevel() {
 function init() {
   var accLevel = getUrlLevel();
   getChartData(accLevel);
-  console.log(window.location.search);
+  // console.log(window.location.search);
 }
 $(document).ready(init);
 
