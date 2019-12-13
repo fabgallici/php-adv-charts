@@ -1,0 +1,10 @@
+.wrapper {
+  width: 90%;
+  max-width: 1150px;
+  margin: auto;
+  margin-bottom: 30px;
+}
+#myChart,
+#myAgentsChart {
+  width: 100%;
+}
