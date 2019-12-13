@@ -7,9 +7,15 @@ function getChartData(accLevel) {
     },
     success: function (data) {
       console.log("data", data);
-      printChartFatturato(data.fatturato);
-      printChartFatturatoAgent(data.fatturato_by_agent);
-      printChartTeams(data.team_efficiency);
+      if (data.fatturato) {
+        printChartFatturato(data.fatturato);
+      }  
+      if (data.fatturato_by_agent) {
+        printChartFatturatoAgent(data.fatturato_by_agent);
+      }
+      if (data.team_efficiency) {
+        printChartTeams(data.team_efficiency);
+      }    
     },
     error: function (error) {
       console.log("error", error);
