@@ -40,10 +40,12 @@ function evChartFatturato(data) {
   var dataset = new Dataset('Vendite', data.data, '#3c7e4d', '#f4002a', 4);
   printChart('chartFatturato', data.type, moment.months(), [dataset]);
 }
+
 function evChartAgent(data) {
   var dataset = new Dataset('Vendite', Object.values(data.data), '#fddb88', '#f4002a', 4);
   printChart('chartAgent', data.type, Object.keys(data.data), [dataset]);
 }
+
 function evChartTeam(data) { 
   var datasets = []; //creare array datasets contenente 1 dataset per ogni Team
   var borderColors = ['#f4002a', '#d9d900', '#2908f2', '#8e183a'];
@@ -87,6 +89,10 @@ function init() {
   var accLevel = getUrlLevel();
   getChartData(accLevel);
   // console.log(window.location.search);
+
+  //alt better get data
+  var getParam = $(".container").attr("data-param");
+  console.log('getParam ', getParam);
 }
 $(document).ready(init);
 

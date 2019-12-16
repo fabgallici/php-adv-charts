@@ -37,7 +37,9 @@
   <div class="wrapper">
     <canvas id="chartTeam"></canvas>
   </div>
-
+  <!-- alt version get param -->
+  <div class="container" data-param=<?= $_GET["level"] ?>></div>
 </body>
 
 </html>
+
